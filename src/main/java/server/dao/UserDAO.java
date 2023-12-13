@@ -1,7 +1,6 @@
 package server.dao;
 
 import models.User;
-import models.User1;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class UserDAO extends DAO {
         PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM users;");
         return preparedStatement.executeQuery();
     }
-    public User1 verifyUser(User1 user) {
+    public User verifyUser(User user) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT *\n"
                     + "FROM users\n"
@@ -28,7 +27,7 @@ public class UserDAO extends DAO {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return new User1(rs.getInt(1),
+                return new User(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -42,7 +41,7 @@ public class UserDAO extends DAO {
         return null;
     }
 
-    public User1 getUserByID(int ID) {
+    public User getUserByID(int ID) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM users\n"
                     + "WHERE id=?");
@@ -50,7 +49,7 @@ public class UserDAO extends DAO {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return new User1(rs.getInt(1),
+                return new User(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
@@ -66,7 +65,7 @@ public class UserDAO extends DAO {
         return null;
     }
 
-    public void addUser(User1 user) {
+    public void addUser(User user) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO users(username, password, nickname, avatar)\n"
                     + "VALUES(?,?,?,?)");
@@ -124,8 +123,8 @@ public class UserDAO extends DAO {
         }
     }
 
-    public List<User1> getListFriend(int ID) {
-        List<User1> ListFriend = new ArrayList<>();
+    public List<User> getListFriend(int ID) {
+        List<User> ListFriend = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT id, nickname, isOnline\n"
                     + "FROM users\n"
@@ -143,13 +142,13 @@ public class UserDAO extends DAO {
             preparedStatement.setInt(2, ID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                ListFriend.add(new User1(rs.getInt(1),  // ID
+                ListFriend.add(new User(rs.getInt(1),  // ID
                         rs.getString(2),
                         (rs.getInt(3) == 1)));
             }
-            ListFriend.sort(new Comparator<User1>() {
+            ListFriend.sort(new Comparator<User>() {
                 @Override
-                public int compare(User1 o1, User1 o2) {
+                public int compare(User o1, User o2) {
                     if (o1.isOnline() && !o2.isOnline())
                         return -1;
                     if (o1.isOnline() && !o2.isOnline())

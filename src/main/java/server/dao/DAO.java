@@ -1,5 +1,7 @@
 package server.dao;
 
+import server.constants.DatabaseConstants;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -7,9 +9,13 @@ public class DAO {
     protected Connection con;
 
     public DAO() {
-        String jdbcURL = "jdbc:mysql://localhost:3306/chat_app";
-        String jdbcUsername = "root";
-        String jdbcPassword = "24082002"; //please change information to connect to DB
+        DatabaseConstants DbCon = new DatabaseConstants();
+        String jdbcURL = DbCon.getDATABASE();
+        String jdbcUsername = DbCon.getUSERNAME();
+        String jdbcPassword = DbCon.getPASSWORD(); //please change information to connect to DB
+        System.out.println(jdbcURL);
+        System.out.println(jdbcUsername);
+        System.out.println(jdbcPassword);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
