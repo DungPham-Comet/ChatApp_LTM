@@ -80,6 +80,15 @@ public class UserDAO extends DAO {
         }
     }
 
+    public void addUserWithUsernamePassword(User user) throws SQLException {
+        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO users(username, password)\n"
+                + "VALUES(?,?)");
+        preparedStatement.setString(1, user.getUsername());
+        preparedStatement.setString(2, user.getPassword());
+        System.out.println(preparedStatement);
+        preparedStatement.executeUpdate();
+    }
+
     public boolean checkDuplicated(String username) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM users WHERE username = ?");

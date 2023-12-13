@@ -8,8 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="609.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SignUp">
+<AnchorPane prefHeight="538.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.SignUpController">
     <children>
         <AnchorPane prefHeight="43.0" prefWidth="432.0" style="-fx-background-color: #3f4d67;">
             <children>
@@ -20,44 +19,45 @@
                 </Text>
             </children>
         </AnchorPane>
-        <AnchorPane layoutY="43.0" minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="432.0" style="-fx-border-color: transparent;">
-            <children>
-                <TextField fx:id="inputUsername" layoutX="109.0" layoutY="195.0" promptText="Username" style="-fx-font-family: Georgia;">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </TextField>
-                <Button fx:id="buttonLogin" layoutX="137.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3f4d67; -fx-border-radius: 10px; -fx-font-family: Georgia;" text="Sign Up" textFill="WHITE">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Button>
-                <PasswordField fx:id="inputPassword" layoutX="109.0" layoutY="266.0" promptText="Password" style="-fx-font-family: Georgia;">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </PasswordField>
-                <Label fx:id="validate" focusTraversable="false" layoutX="58.0" layoutY="266.0" prefHeight="35.0" prefWidth="182.0" text="Validate Text" textFill="RED" visible="false" wrapText="true" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="57.0">
-                    <font>
-                        <Font size="12.0" />
-                    </font>
-                </Label>
-                <Text layoutX="156.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Georgia;" text="Sign In">
-                    <font>
-                        <Font size="31.0" />
-                    </font>
-                </Text>
-                <Text fill="#3f4d67" layoutX="116.0" layoutY="392.0" opacity="0.67" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Georgia; -fx-font-weight: bold;" text="Not a member?">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Text>
-                <Text fill="#3f4d67" layoutX="253.0" layoutY="392.0" opacity="0.85" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Georgia; -fx-font-weight: bold;" text="Sign Up">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Text>
-            </children>
-        </AnchorPane>
+      <TextField fx:id="inputUsername" layoutX="112.0" layoutY="204.0" promptText="Username" style="-fx-font-family: Georgia;">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Button fx:id="signUpButton" layoutX="139.0" layoutY="325.0" mnemonicParsing="false" onAction="#signUp" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3f4d67; -fx-border-radius: 10px; -fx-font-family: Georgia;" text="Sign Up" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <PasswordField fx:id="inputPassword" layoutX="111.0" layoutY="269.0" promptText="Password" style="-fx-font-family: Georgia;">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </PasswordField>
+      <Label fx:id="validate" focusTraversable="false" layoutX="68.0" layoutY="276.0" prefHeight="35.0" prefWidth="182.0" text="Validate Text" textFill="RED" visible="false" wrapText="true">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
+      <Text layoutX="154.0" layoutY="171.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Georgia;" text="Sign Up">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Text>
+      <Text fill="#3f4d67" layoutX="46.0" layoutY="408.0" opacity="0.67" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Georgia; -fx-font-weight: bold;" text="Already have account?">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="returnSignInButton" contentDisplay="CENTER" layoutX="278.0" layoutY="387.0" mnemonicParsing="false" onAction="#returnSignIn" style="-fx-background-color: #ffffff;" text="Sign In">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label fx:id="signUpStatus" alignment="CENTER" layoutX="87.0" layoutY="461.0" prefHeight="30.0" prefWidth="258.0" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
