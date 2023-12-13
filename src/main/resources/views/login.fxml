@@ -30,11 +30,6 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fill="#3f4d67" layoutX="284.0" layoutY="408.0" opacity="0.85" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Georgia; -fx-font-weight: bold;" text="Sign Up">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
       <PasswordField fx:id="passwordTextField" layoutX="112.0" layoutY="267.0" prefHeight="30.0" prefWidth="207.0" promptText="Password" style="-fx-font-family: Georgia;">
          <font>
             <Font size="16.0" />
@@ -46,6 +41,11 @@
          </font>
       </Label>
       <Button fx:id="loginButton" alignment="CENTER" layoutX="182.0" layoutY="329.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #5f9ea0; -fx-border-radius: 100;" text="Sign In">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="signUpButton" contentDisplay="CENTER" layoutX="286.0" layoutY="388.0" mnemonicParsing="false" onAction="#signUp" style="-fx-background-color: #ffffff;" text="Sign Up">
          <font>
             <Font size="15.0" />
          </font>
