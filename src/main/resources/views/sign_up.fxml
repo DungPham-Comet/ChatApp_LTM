@@ -8,7 +8,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="609.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.LoginController">
+
+<AnchorPane prefHeight="609.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SignUp">
     <children>
         <AnchorPane prefHeight="43.0" prefWidth="432.0" style="-fx-background-color: #3f4d67;">
             <children>
@@ -21,16 +22,26 @@
         </AnchorPane>
         <AnchorPane layoutY="43.0" minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="432.0" style="-fx-border-color: transparent;">
             <children>
-                <Button fx:id="loginButton" layoutX="141.0" layoutY="327.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3f4d67; -fx-border-radius: 10px; -fx-font-family: Georgia;" text="Sign In" textFill="WHITE">
+                <TextField fx:id="inputUsername" layoutX="109.0" layoutY="195.0" promptText="Username" style="-fx-font-family: Georgia;">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </TextField>
+                <Button fx:id="buttonLogin" layoutX="137.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3f4d67; -fx-border-radius: 10px; -fx-font-family: Georgia;" text="Sign Up" textFill="WHITE">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-            <TextField fx:id="usernameTextField" layoutX="113.0" layoutY="205.0" prefHeight="32.0" prefWidth="207.0" promptText="UserName" style="-fx-font-family: Georgia;">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TextField>
+                <PasswordField fx:id="inputPassword" layoutX="109.0" layoutY="266.0" promptText="Password" style="-fx-font-family: Georgia;">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </PasswordField>
+                <Label fx:id="validate" focusTraversable="false" layoutX="58.0" layoutY="266.0" prefHeight="35.0" prefWidth="182.0" text="Validate Text" textFill="RED" visible="false" wrapText="true" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="57.0">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
                 <Text layoutX="156.0" layoutY="160.0" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Georgia;" text="Sign In">
                     <font>
                         <Font size="31.0" />
@@ -46,16 +57,6 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-            <PasswordField fx:id="passwordTextField" layoutX="113.0" layoutY="259.0" prefHeight="30.0" prefWidth="207.0" promptText="Password" style="-fx-font-family: Georgia;">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </PasswordField>
-            <Label fx:id="loginStatusLabel" layoutX="190.0" layoutY="430.0" style="-fx-font-family: Georgia;" text="Status">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
             </children>
         </AnchorPane>
     </children>

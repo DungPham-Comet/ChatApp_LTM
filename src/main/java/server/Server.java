@@ -1,9 +1,7 @@
 package server;
 
 import models.User;
-import models.User1;
 import server.dao.UserDAO;
-import server.dao.UserInforService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,28 +33,24 @@ public class Server extends Thread{
         String password = input.readLine();
         System.out.println(sock.getRemoteSocketAddress()+ " Username: " + username);
         System.out.println(sock.getRemoteSocketAddress() + " Password: " + password);
-        List<User1> users = new ArrayList<>();
+        User user = new User(username, password);
 
         UserDAO userDAO = new UserDAO();
 
-        ResultSet rs = userDAO.getAllUser();
+        User userVerified = userDAO.verifyUser(user);
 
-        if (rs != null){
-            while (rs.next()) {
-                users.add(new User1(rs.getInt("id"), rs.getString("username"), rs.getString("password")));
-            }
+        if (userVerified != null) {
+            System.out.println("Login successfully");
+            // Send login successfully message to client
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            out.println("Login successfully");
+        }else{
+            System.out.println("Login Fail");
+            // Send login successfully message to client
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            out.println("Login Fail");
         }
 
-        for (User1 user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                System.out.println("Login successfully");
-                // Send login successfully message to client
-                PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                out.println("Login successfully");
-
-                break;
-            }
-        }
 
     }
 
