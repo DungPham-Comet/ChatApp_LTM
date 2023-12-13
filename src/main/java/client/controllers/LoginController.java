@@ -20,8 +20,6 @@ public class LoginController {
     @FXML
     private TextField passwordTextField;
 
-    @FXML
-    private Label statusLabel;
 
     @FXML
     private TextField usernameTextField;
