@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server extends Thread{
+public class Server extends Thread {
     private int port = 8080;
 
     private ServerSocket ss = null;
@@ -27,11 +27,11 @@ public class Server extends Thread{
 
     public static void handleClient(Socket sock) throws IOException, SQLException {
         System.out.println("Connection from " + sock.getRemoteSocketAddress());
-        BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        BufferedReader inputSignIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
-        String username = input.readLine();
-        String password = input.readLine();
-        System.out.println(sock.getRemoteSocketAddress()+ " Username: " + username);
+        String username = inputSignIn.readLine();
+        String password = inputSignIn.readLine();
+        System.out.println(sock.getRemoteSocketAddress() + " Username: " + username);
         System.out.println(sock.getRemoteSocketAddress() + " Password: " + password);
         User user = new User(username, password);
 
@@ -39,19 +39,37 @@ public class Server extends Thread{
 
         User userVerified = userDAO.verifyUser(user);
 
-        if (userVerified != null) {
+        if (userVerified != null && !userVerified.isOnline()) {
             System.out.println("Login successfully");
             // Send login successfully message to client
+            userDAO.updateToOnline(userVerified.getID());
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-            out.println("Login Successfully");
-        }else{
+            out.println("1");
+
+            BufferedReader inputMessage = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            String message;
+            message = inputMessage.readLine();
+
+            switch (message) {
+                case "logout":
+                    handleLogOut(sock, userVerified, userDAO);
+                    break;
+            }
+        } else if (userVerified != null && userVerified.isOnline()) {
+            System.out.println("Account is being logged in from other device");
+            // Send login successfully message to client
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            out.println("2");
+        } else {
             System.out.println("Login Fail");
             // Send login successfully message to client
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-            out.println("Login Fail");
+            out.println("0");
         }
+    }
 
-
+    public static void handleLogOut(Socket sock, User user, UserDAO userDAO) throws IOException, SQLException {
+        userDAO.updateToOffline(user.getID());
     }
 
     @Override
@@ -60,7 +78,7 @@ public class Server extends Thread{
             System.out.println("Waiting for connection...");
             ss = new ServerSocket(port);
 
-            while(true) {
+            while (true) {
                 sock = ss.accept();
                 new Thread(() -> {
                     try {
@@ -71,63 +89,8 @@ public class Server extends Thread{
                 }).start();
             }
 
-//            sock = ss.accept();
-//            System.out.println("Connection from " + sock.getRemoteSocketAddress());
-//
-//            // Add your server logic here
-//            // Read username and password from client
-//            String username = readUsername();
-//            String password = readPassword();
-//            System.out.println("Username: " + username);
-//            System.out.println("Password: " + password);
-//
-//            List<User> users = new ArrayList<>();
-//
-//            ResultSet rs = UserInforService.getAllUser();
-//
-//            if (rs != null){
-//                while (rs.next()) {
-//                    users.add(new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password")));
-//                }
-//            }
-//
-//            for (User user : users) {
-//                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-//                    System.out.println("Login successfully");
-//                    // Send login successfully message to client
-//                    PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-//                    out.println("Login successfully");
-//
-//                    break;
-//                }
-//            }
-//
         } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
-
-//    public String readUsername() {
-//        try {
-//            BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-//            String username = input.readLine();
-//            return username;
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public String readPassword() {
-//        try {
-//            BufferedReader input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-//            String password = input.readLine();
-//            return password;
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
+            throw new RuntimeException(e);
+        }
     }
 }

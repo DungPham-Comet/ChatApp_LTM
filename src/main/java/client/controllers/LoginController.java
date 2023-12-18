@@ -47,11 +47,13 @@ public class LoginController {
         String loginStatus = client_tmp.readMessage();
         //loginStatusLabel.setText(loginStatus);
 
-        if (loginStatus.equals("Login Successfully")) {
+        if (loginStatus.equals("1")) {
             ViewUtils viewUtils = new ViewUtils();
             viewUtils.changeScene(event, HOME_VIEW);
+        } else if (loginStatus.equals("2")) {
+            loginStatusLabel.setText("Account is being logged in from other device");
         } else {
-            loginStatusLabel.setText(loginStatus);
+            loginStatusLabel.setText("Login Fail");
         }
     }
 
