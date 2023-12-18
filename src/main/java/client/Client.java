@@ -64,4 +64,13 @@ public class Client extends Thread{
         }
     }
 
+    public void sendMessage(String msg){
+        try {
+            PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+            out.println(msg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

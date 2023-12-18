@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
+import static client.ClientTemp.client_tmp;
 import static server.constants.FxmlConstants.LOGIN_VIEW;
 
 public class HomeController {
@@ -29,6 +30,7 @@ public class HomeController {
 
     @FXML
     void logOut(ActionEvent event) throws IOException {
+        client_tmp.sendMessage("logout");
         ViewUtils viewUtils = new ViewUtils();
         viewUtils.changeScene(event, LOGIN_VIEW);
     }
