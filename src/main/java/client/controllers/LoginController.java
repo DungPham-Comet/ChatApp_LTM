@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static client.ClientTemp.client_tmp;
+import static server.constants.FxmlConstants.HOME_VIEW;
 import static server.constants.FxmlConstants.SIGNUP_VIEW;
 
 public class LoginController {
@@ -33,7 +34,7 @@ public class LoginController {
     private TextField usernameTextField;
 
     @FXML
-    void login(ActionEvent event) throws SQLException {
+    void login(ActionEvent event) throws SQLException, IOException {
         client_tmp = new Client("127.0.0.1", 8080);
         //client.start();
 
@@ -44,7 +45,14 @@ public class LoginController {
         client_tmp.sendPassword(password);
 
         String loginStatus = client_tmp.readMessage();
-        loginStatusLabel.setText(loginStatus);
+        //loginStatusLabel.setText(loginStatus);
+
+        if (loginStatus.equals("Login Successfully")) {
+            ViewUtils viewUtils = new ViewUtils();
+            viewUtils.changeScene(event, HOME_VIEW);
+        } else {
+            loginStatusLabel.setText(loginStatus);
+        }
     }
 
     @FXML

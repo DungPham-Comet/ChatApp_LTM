@@ -43,7 +43,7 @@ public class Server extends Thread{
             System.out.println("Login successfully");
             // Send login successfully message to client
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-            out.println("Login successfully");
+            out.println("Login Successfully");
         }else{
             System.out.println("Login Fail");
             // Send login successfully message to client
