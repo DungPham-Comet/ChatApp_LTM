@@ -17,6 +17,9 @@ import static server.constants.FxmlConstants.SIGNUP_VIEW;
 
 public class LoginController {
 
+//    public LoginController(){
+//        client_tmp = new Client("127.0.0.1", 8080);
+//    }
     @FXML
     private Button loginButton;
 
@@ -37,21 +40,25 @@ public class LoginController {
     void login(ActionEvent event) throws SQLException, IOException {
         client_tmp = new Client("127.0.0.1", 8080);
         //client.start();
+        client_tmp.sendMessage("login");
+        if (client_tmp.readMessage().equals("login accepted")) {
+            String username = usernameTextField.getText();
+            String password = passwordTextField.getText();
 
-        String username = usernameTextField.getText();
-        String password = passwordTextField.getText();
+            client_tmp.sendUsername(username);
+            client_tmp.sendPassword(password);
 
-        client_tmp.sendUsername(username);
-        client_tmp.sendPassword(password);
+            String loginStatus = client_tmp.readMessage();
+            //loginStatusLabel.setText(loginStatus);
 
-        String loginStatus = client_tmp.readMessage();
-        //loginStatusLabel.setText(loginStatus);
-
-        if (loginStatus.equals("1")) {
-            ViewUtils viewUtils = new ViewUtils();
-            viewUtils.changeScene(event, HOME_VIEW);
-        } else if (loginStatus.equals("2")) {
-            loginStatusLabel.setText("Account is being logged in from other device");
+            if (loginStatus.equals("1")) {
+                ViewUtils viewUtils = new ViewUtils();
+                viewUtils.changeScene(event, HOME_VIEW);
+            } else if (loginStatus.equals("2")) {
+                loginStatusLabel.setText("Account is being logged in from other device");
+            } else {
+                loginStatusLabel.setText("Login Fail");
+            }
         } else {
             loginStatusLabel.setText("Login Fail");
         }
@@ -59,6 +66,7 @@ public class LoginController {
 
     @FXML
     void signUp(ActionEvent event) throws IOException {
+        //client_tmp = new Client("127.0.0.1", 8080);
         ViewUtils viewUtils = new ViewUtils();
         viewUtils.changeScene(event, SIGNUP_VIEW);
     }
