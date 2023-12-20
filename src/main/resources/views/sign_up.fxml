@@ -19,11 +19,6 @@
                 </Text>
             </children>
         </AnchorPane>
-      <Label fx:id="validate" focusTraversable="false" layoutX="68.0" layoutY="276.0" prefHeight="35.0" prefWidth="182.0" text="Validate Text" textFill="RED" visible="false" wrapText="true">
-         <font>
-            <Font size="12.0" />
-         </font>
-      </Label>
       <Text fill="#3f4d67" layoutX="46.0" layoutY="408.0" opacity="0.67" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Georgia; -fx-font-weight: bold;" text="Already have account?">
          <font>
             <Font size="14.0" />
