@@ -17,9 +17,9 @@ import static server.constants.FxmlConstants.SIGNUP_VIEW;
 
 public class LoginController {
 
-//    public LoginController(){
-//        client_tmp = new Client("127.0.0.1", 8080);
-//    }
+    public LoginController(){
+        client_tmp = new Client("127.0.0.1", 8080);
+    }
     @FXML
     private Button loginButton;
 
@@ -38,7 +38,7 @@ public class LoginController {
 
     @FXML
     void login(ActionEvent event) throws SQLException, IOException {
-        client_tmp = new Client("127.0.0.1", 8080);
+        //client_tmp = new Client("127.0.0.1", 8080);
         //client.start();
         client_tmp.sendMessage("login");
         if (client_tmp.readMessage().equals("login accepted")) {

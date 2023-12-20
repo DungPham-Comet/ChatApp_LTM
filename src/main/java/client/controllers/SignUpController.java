@@ -32,9 +32,6 @@ public class SignUpController {
     private Button signUpButton;
 
     @FXML
-    private Label validate;
-
-    @FXML
     void returnSignIn(ActionEvent event) throws IOException {
         ViewUtils viewUtils = new ViewUtils();
         viewUtils.changeScene(event, LOGIN_VIEW);
@@ -42,28 +39,31 @@ public class SignUpController {
 
     @FXML
     void signUp(ActionEvent event) throws SQLException {
-        client_tmp = new Client("127.0.0.1", 8080);
-        UserDAO userDAO = new UserDAO();
+        //client_tmp = new Client("127.0.0.1", 8080);
         client_tmp.sendMessage("signup");
 
-        if (client_tmp.readMessage().equals("signup accepted")){
+        if (client_tmp.readMessage().equals("signup accepted")) {
+            UserDAO userDAO = new UserDAO();
+            String username;
+            String password;
 
-            String username = inputUsername.getText();
-            String password = inputPassword.getText();
+            username = inputUsername.getText();
+            password = inputPassword.getText();
 
-            if(username.trim().equals("") || password.trim().equals("")) {
-                createDialog(
-                        Alert.AlertType.WARNING,
-                        "Khoan nào cán bộ",
-                        "", "Vui lòng nhập đủ username và password!"
-                );
+            if (username.equals("") || password.equals("")) {
+//                createDialog(
+//                        Alert.AlertType.WARNING,
+//                        "Đăng ký thất bại",
+//                        "", "Vui lòng nhập đầy đủ thông tin!"
+//                );
+                //return;
             } else {
                 client_tmp.sendUsername(username);
                 client_tmp.sendPassword(password);
 
                 String signUpStatus = client_tmp.readMessage();
 
-                if (signUpStatus.equals("1")){
+                if (signUpStatus.equals("1")) {
                     createDialog(
                             Alert.AlertType.INFORMATION,
                             "Đăng ký thành công",
@@ -77,6 +77,8 @@ public class SignUpController {
                     );
                 }
             }
+
+
         } else {
             signUpStatusLabel.setText("Sign Up Fail");
         }
