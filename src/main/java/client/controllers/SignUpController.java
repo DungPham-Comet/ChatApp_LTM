@@ -40,24 +40,25 @@ public class SignUpController {
     @FXML
     void signUp(ActionEvent event) throws SQLException {
         //client_tmp = new Client("127.0.0.1", 8080);
-        client_tmp.sendMessage("signup");
 
-        if (client_tmp.readMessage().equals("signup accepted")) {
-            UserDAO userDAO = new UserDAO();
-            String username;
-            String password;
+        UserDAO userDAO = new UserDAO();
+        String username;
+        String password;
 
-            username = inputUsername.getText();
-            password = inputPassword.getText();
+        username = inputUsername.getText();
+        password = inputPassword.getText();
 
-            if (username.equals("") || password.equals("")) {
-//                createDialog(
-//                        Alert.AlertType.WARNING,
-//                        "Đăng ký thất bại",
-//                        "", "Vui lòng nhập đầy đủ thông tin!"
-//                );
-                //return;
-            } else {
+        if (username.equals("") || password.equals("")) {
+            createDialog(
+                    Alert.AlertType.WARNING,
+                    "Đăng ký thất bại",
+                    "", "Vui lòng nhập đầy đủ thông tin!"
+            );
+            //return;
+        } else {
+
+            client_tmp.sendMessage("signup");
+            if (client_tmp.readMessage().equals("signup accepted")) {
                 client_tmp.sendUsername(username);
                 client_tmp.sendPassword(password);
 
@@ -78,9 +79,6 @@ public class SignUpController {
                 }
             }
 
-
-        } else {
-            signUpStatusLabel.setText("Sign Up Fail");
         }
     }
 }
