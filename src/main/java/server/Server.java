@@ -17,15 +17,14 @@ import java.util.List;
 public class Server extends Thread {
     private int port = 8080;
 
+    private Socket sock = null;
     private ServerSocket ss = null;
-
-    private static Socket sock = null;
 
     public Server(int port) {
         this.port = port;
     }
 
-    public static void returnAcceptMsg(String msg) throws IOException {
+    public static void returnAcceptMsg(Socket sock, String msg) throws IOException {
         PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
         out.println( msg + " accepted");
     }
@@ -41,7 +40,7 @@ public class Server extends Thread {
 
             switch (flagMessage){
                 case "login":
-                    returnAcceptMsg("login");
+                    returnAcceptMsg(sock, "login");
                     BufferedReader inputSignIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                     String username = inputSignIn.readLine();
                     String password = inputSignIn.readLine();
@@ -80,7 +79,7 @@ public class Server extends Thread {
                     }
                     break;
                 case "signup":
-                    returnAcceptMsg("signup");
+                    returnAcceptMsg(sock, "signup");
                     BufferedReader inputSignUp = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                     //while(true){
                     String usernameSignUp = inputSignUp.readLine();
