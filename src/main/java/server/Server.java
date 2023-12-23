@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static client.utils.HandleRecv.recvHeader;
+
 public class Server extends Thread {
     private int port = 8080;
 
@@ -36,26 +38,26 @@ public class Server extends Thread {
         while(true){
             BufferedReader flag = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
-            String flagMessage = flag.readLine();
+            String combinedMsg = flag.readLine();
+            String flagMessage = recvHeader(combinedMsg);
 
             switch (flagMessage){
                 case "login":
-                    returnAcceptMsg(sock, "login");
-                    BufferedReader inputSignIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                    String username = inputSignIn.readLine();
-                    String password = inputSignIn.readLine();
-                    System.out.println(sock.getRemoteSocketAddress() + " Username: " + username);
-                    System.out.println(sock.getRemoteSocketAddress() + " Password: " + password);
+                    String username = combinedMsg.split(";")[1];
+                    String password = combinedMsg.split(";")[2];
+
+                    System.out.println(sock.getRemoteSocketAddress() + " Username Sign In: " + username);
+                    System.out.println(sock.getRemoteSocketAddress() + " Password Sign In: " + password);
                     User user = new User(username, password);
 
                     User userVerified = userDAO.verifyUser(user);
+                    PrintWriter outLogin = new PrintWriter(sock.getOutputStream(), true);
 
                     if (userVerified != null && !userVerified.isOnline()) {
                         System.out.println("Login successfully");
                         // Send login successfully message to client
                         userDAO.updateToOnline(userVerified.getID());
-                        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                        out.println("1");
+                        outLogin.println("login:" + ";" +"1");
 
                         BufferedReader inputMessage = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                         String message;
@@ -69,37 +71,30 @@ public class Server extends Thread {
                     } else if (userVerified != null && userVerified.isOnline()) {
                         System.out.println("Account is being logged in from other device");
                         // Send login successfully message to client
-                        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                        out.println("2");
+                        outLogin.println("login:" + ";" +"2");
                     } else {
-                        System.out.println("Login Fail");
+                        System.out.println("Login Fail - Wrong username or password");
                         // Send login successfully message to client
-                        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                        out.println("0");
+                        outLogin.println("login:" + ";" +"0");
                     }
                     break;
                 case "signup":
-                    returnAcceptMsg(sock, "signup");
-                    BufferedReader inputSignUp = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                    //while(true){
-                    String usernameSignUp = inputSignUp.readLine();
-                    String passwordSignUp = inputSignUp.readLine();
 
-                    System.out.println(sock.getRemoteSocketAddress() + " Username: " + usernameSignUp);
-                    System.out.println(sock.getRemoteSocketAddress() + " Password: " + passwordSignUp);
+                    String usernameSignUp = combinedMsg.split(";")[1];
+                    String passwordSignUp = combinedMsg.split(";")[2];
+
+                    System.out.println(sock.getRemoteSocketAddress() + " Username Sign Up: " + usernameSignUp);
+                    System.out.println(sock.getRemoteSocketAddress() + " Password Sign Up: " + passwordSignUp);
+                    PrintWriter outSignup = new PrintWriter(sock.getOutputStream(), true);
 
                     if (userDAO.checkDuplicated(usernameSignUp)){
                         System.out.println("Username is duplicated");
-                        // Send login successfully message to client
-                        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                        out.println("0");
+                        outSignup.println("signup:" + ";" +"0");
                     } else {
                         User userSignUp = new User(usernameSignUp, passwordSignUp);
                         userDAO.addUserWithUsernamePassword(userSignUp);
                         System.out.println("Sign up successfully");
-                        // Send login successfully message to client
-                        PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
-                        out.println("1");
+                        outSignup.println("signup:" + ";" +"1");
                     }
                     //}
                     break;
