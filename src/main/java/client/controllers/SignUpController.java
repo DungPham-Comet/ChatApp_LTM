@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static client.ClientTemp.client_tmp;
+import static client.utils.LogicUtils.checkInput;
 import static client.utils.LogicUtils.createDialog;
 import static server.constants.FxmlConstants.LOGIN_VIEW;
 
@@ -38,7 +39,7 @@ public class SignUpController {
     }
 
     @FXML
-    void signUp(ActionEvent event) throws SQLException {
+    void signUp(ActionEvent event) throws SQLException, IOException {
         //client_tmp = new Client("127.0.0.1", 8080);
 
         UserDAO userDAO = new UserDAO();
@@ -55,30 +56,35 @@ public class SignUpController {
                     "", "Vui lòng nhập đầy đủ thông tin!"
             );
             //return;
-        } else {
+        } else if(checkInput(username) == false || checkInput(password) == false){
+            createDialog(
+                    Alert.AlertType.WARNING,
+                    "Đăng ký thất bại",
+                    "", "Vui lòng nhập đúng định dạng!"
+            );
+        }
+        else {
+            String signUpMsg = "signup;" + username + ";" + password;
+            client_tmp.sendMessage(signUpMsg);
 
-            client_tmp.sendMessage("signup");
-            if (client_tmp.readMessage().equals("signup accepted")) {
-                client_tmp.sendUsername(username);
-                client_tmp.sendPassword(password);
+            String serverRes = client_tmp.readMessage();
 
-                String signUpStatus = client_tmp.readMessage();
-
-                if (signUpStatus.equals("1")) {
-                    createDialog(
-                            Alert.AlertType.INFORMATION,
-                            "Đăng ký thành công",
-                            "", "Vui lòng đăng nhập để tiếp tục!"
-                    );
-                } else {
-                    createDialog(
-                            Alert.AlertType.WARNING,
-                            "Đăng ký thất bại",
-                            "", "Username này đã tồn tại!"
-                    );
-                }
+            String signUpStatus = serverRes.split(";")[1];
+            if (signUpStatus.equals("1")) {
+                createDialog(
+                        Alert.AlertType.INFORMATION,
+                        "Đăng ký thành công",
+                        "", "Vui lòng đăng nhập để tiếp tục!"
+                );
+                ViewUtils viewUtils = new ViewUtils();
+                viewUtils.changeScene(event, LOGIN_VIEW);
+            } else {
+                createDialog(
+                        Alert.AlertType.WARNING,
+                        "Đăng ký thất bại",
+                        "", "Tài khoản đã tồn tại!"
+                );
             }
-
         }
     }
 }
